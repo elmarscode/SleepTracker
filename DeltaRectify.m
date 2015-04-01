@@ -16,7 +16,7 @@ p = p(pre:length(p)-post);
 axisSum=xm+ym+zm;
 axisSum = axisSum(1:end-1);
 index=index(pre:length(index)-post);
-hold all
+%hold all       %uncomment if you wish to overlap plots
 subplot(3,1,1)
 plot(index,axisSum, 'r')
 axis([0 length(index) min(axisSum) mean(axisSum)*2-min(axisSum)]);
@@ -26,7 +26,7 @@ plot(index,p, 'r')
 axis([0 length(index) (mean(p)-0.02) (mean(p)+0.02)]);
 
 colors = ['y';'g';'r';'b'];
-gradients = [2 4 6 16];
+gradients = [4 26 32 34];%[2 4 6 16];
 for outeri = 1:4
 clear axisSmooth smoothIndex;
   j=1;
@@ -39,5 +39,5 @@ clear axisSmooth smoothIndex;
   hold all
   subplot(3,1,3)
   plot(smoothIndex,axisSmooth, colors(outeri))
-  axis([0 length(index) 0 (mean(axisSmooth)+0.05)]);
+  axis([0 length(index) 0 (mean(axisSmooth)+0.002)]);
 end

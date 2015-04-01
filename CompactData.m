@@ -2,16 +2,16 @@ clear
 %%http://www.mathworks.com/matlabcentral/answers/27408-reading-a-csv-file-with-header-and-times
 %%https://www.gnu.org/software/octave/doc/interpreter/Timing-Utilities.html
 
-rescanFile = 1;                       % 0-do not rescan, 1-rescan data file
+rescanFile = 0;                       % 0-do not rescan, 1-rescan data file
 backupData = 1;                       % 0-do not replace old backup file
                                       % 1-replace backup file
 MAX_BUFFER_SIZE = 100000;             % Max amount of samples to read in
 readBufferSize = MAX_BUFFER_SIZE;     
-total2read = 2300;                 % Total number of samples to read
+total2read = 5000000;                 % Total number of samples to read
 formatSpec = '%s %*s %f %f %f';       % Format of data in file
-filename = 'E.txt';                   % Data filename
-fileDataBackup = 'E_data.mat';        % Variable back up file name
-things2save = 'T','F','xm','ym','zm'; % Variables to back up
+filename = 'H.txt';                   % Data filename
+fileDataBackup = 'H_data.mat';        % Variable back up file name
+%things2save = {"'T'";"'xm'";"'ym'";"'zm'"}; % Variables to back up [Not functional]
 if readBufferSize > total2read        % If there's less samples then you 
   readBufferSize = total2read;        % you want to buffer, read in total
 end
@@ -22,7 +22,7 @@ zCol = 4;
 T=[];
 F=[];
 fidData = fopen(fileDataBackup); %if data exist do not rescan unless rescan = 1;
-if ~fidData || rescanFile
+if (fidData == -1) || rescanFile
   fid = fopen(filename);
   head=1;
   tail=1;
@@ -55,12 +55,14 @@ if ~fidData || rescanFile
   end
   fclose(fid);
 else
-  fclose(fidData);
+  %if ~(fidData == -1)
+     fclose(fidData);
+  %end
   load(fileDataBackup);  
 end
 if backupData
-  save(fileDataBackup, things2save);
+  save(fileDataBackup, 'T', 'xm', 'ym', 'zm');
 end
 clear T F;
 %DisplayRaw
-%DeltaRectify
+DeltaRectify
